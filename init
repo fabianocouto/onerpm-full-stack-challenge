@@ -1,0 +1,11 @@
+#!/bin/bash
+docker exec -it onerpm-srv bash -c '
+composer -v
+composer -vvv install
+composer -vvv update
+npm install
+npm run build
+php artisan migrate
+php artisan app:sync-isrc
+php artisan schedule:work
+'

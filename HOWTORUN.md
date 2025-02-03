@@ -12,7 +12,7 @@
 At the root directory, run the follow command:
 
 ```
-$ docker compose up
+$ docker compose up --build -d && ./init
 ```
 
 ## Access localhost

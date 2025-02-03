@@ -1,8 +1,4 @@
 services:
-    cache:
-        container_name: onerpm-cache
-        image: redis:alpine
-
     database:
         container_name: onerpm-db
         image: mariadb:11.0
@@ -20,6 +16,8 @@ services:
             - ./application/vendor/mariadb:/var/lib/mariadb
 
     webserver:
+        depends_on:
+            - database
         container_name: onerpm-srv
         image: php:8.4.3-apache
         network_mode: host
