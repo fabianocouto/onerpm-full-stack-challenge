@@ -16,10 +16,12 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
           coverage: none
 
-      - name: Run composer install
+      - name: Install and build
         run: |
           cd application
           composer install -n --prefer-dist
+          npm install
+          npm run build
 
       - name: Prepare Laravel Application
         run: |

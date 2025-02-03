@@ -24,4 +24,4 @@ jobs:
       - name: Run Static Analysis
         run: |
           cd application
-          ./vendor/bin/phpstan --error-format=github
+          ./vendor/bin/phpstan --error-format=github analyse .
