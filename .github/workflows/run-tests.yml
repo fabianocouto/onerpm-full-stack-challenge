@@ -25,6 +25,7 @@ jobs:
         run: |
           pwd
           cd application
+          pwp && ls -l
           cp .env.ci .env
           php artisan key:generate
 
