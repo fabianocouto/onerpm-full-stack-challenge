@@ -23,11 +23,11 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          pwd
           cd application
-          pwd && ls -l
           cp .env.ci .env
           php artisan key:generate
 
       - name: Run tests
-        run: php artisan test
+        run: |
+          cd application
+          php artisan test
