@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Isrc;
 use App\Models\IsrcStatus;
 use App\Services\Isrc\IsrcService;
+use Illuminate\Support\Facades\Log;
 
 
 class SyncIsrc extends Command
@@ -29,6 +30,8 @@ class SyncIsrc extends Command
      */
     public function handle()
     {
+        Log::info('Executing ' . $this->signature . ' command...');
+
         Isrc::select()->where('isrc_status_id', IsrcStatus::WAITING)->get()->each(function($isrc) {
             IsrcService::sync($isrc);
         });
