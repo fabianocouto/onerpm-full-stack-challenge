@@ -20,9 +20,9 @@ final class SpotifyDriver implements DriverInterface
 {
     /**
      * @param Isrc $isrc
-     * @return Track
+     * @return void
      */
-    public static function syncIsrc(Isrc $isrc)
+    public static function syncIsrc(Isrc $isrc) : void
     {
         $spotifyClient = new SpotifyClient();
 

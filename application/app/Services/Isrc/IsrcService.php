@@ -13,9 +13,9 @@ final class IsrcService
 {
     /**
      * @param Isrc $isrc
-     * @return bool
+     * @return void
      */
-    public static function sync(Isrc $isrc, $driver = 'spotify')
+    public static function sync(Isrc $isrc, $driver = 'spotify') : void
     {
         switch ($driver)
         {
