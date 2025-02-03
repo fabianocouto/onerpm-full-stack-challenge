@@ -10,7 +10,7 @@ use Illuminate\Database\Seeder;
 class IsrcSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeds
      */
     public function run(): void
     {

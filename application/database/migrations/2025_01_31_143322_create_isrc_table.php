@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('isrc', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('code')->index();
+            $table->string('code')->unique();
             $table->bigInteger('isrc_status_id')->unsigned();
 
             $table->foreign('isrc_status_id')->references('id')->on('isrc_status');
