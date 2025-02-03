@@ -8,4 +8,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('app:sync-isrc')->everyThirtySeconds();
+Schedule::command('app:sync-isrc')
+    ->everyFiveSeconds()
+    ->runInBackground();
