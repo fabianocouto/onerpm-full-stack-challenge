@@ -21,4 +21,6 @@ jobs:
           composer install -n --prefer-dist
 
       - name: Run Static Analysis
-        run: ./vendor/bin/phpstan --error-format=github
+        run: |
+          cd application
+          ./vendor/bin/phpstan --error-format=github
