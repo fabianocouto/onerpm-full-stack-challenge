@@ -23,6 +23,7 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
+          pwd
           cd application
           cp .env.ci .env
           php artisan key:generate
