@@ -17,4 +17,5 @@ $ docker compose up --build -d && ./init
 
 ## Access localhost
 
-[htttp://localhost](htttp://localhost)
+- [http://localhost](http://localhost)
+- [http://localhost/api/track](http://localhost/api/track)
