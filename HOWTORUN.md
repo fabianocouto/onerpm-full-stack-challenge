@@ -9,6 +9,8 @@
 
 ## Run application
 
+Set Spotify Web API credentials in .env.dev file before running.
+
 At the root directory, run the follow command:
 
 ```
