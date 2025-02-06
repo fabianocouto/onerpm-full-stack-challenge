@@ -16,6 +16,11 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
           coverage: none
 
+      - name: Prepare Laravel Application
+        run: |
+          cd application
+          cp .env.testing .env
+
       - name: Install and build
         run: |
           cd application
