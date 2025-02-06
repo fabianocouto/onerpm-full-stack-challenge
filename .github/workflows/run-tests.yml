@@ -23,13 +23,8 @@ jobs:
           npm install
           npm run build
 
-      - name: Prepare Laravel Application
-        run: |
-          cd application
-          cp .env.ci .env
-          php artisan key:generate
-
       - name: Run tests
         run: |
           cd application
+          php artisan migrate
           php artisan test
