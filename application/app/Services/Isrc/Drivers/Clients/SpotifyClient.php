@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Log;
 /**
  * SpotifyClient Class
  */
-final class SpotifyClient implements ClientInterface
+class SpotifyClient implements ClientInterface
 {
     /**
      * Spotify App Client ID
+     *
      * @see https://developer.spotify.com/documentation/web-api/concepts/apps
      * @var string
      */
@@ -21,15 +22,19 @@ final class SpotifyClient implements ClientInterface
 
     /**
      * Spotify App Client Secret
+     *
      * @see https://developer.spotify.com/documentation/web-api/concepts/apps
      * @var string
      */
     private $spotifyApiClientSecret;
 
+    /**
+     * SpotifyClient Constructor
+     */
     public function __construct()
     {
-        $this->spotifyApiClientId = env('SPOTIFY_API_CLIENT_ID');
-        $this->spotifyApiClientSecret = env('SPOTIFY_API_CLIENT_SECRET');
+        $this->spotifyApiClientId = config('services.spotify.api.client.id');
+        $this->spotifyApiClientSecret = config('services.spotify.api.client.secret');
     }
 
     /**
@@ -88,31 +93,23 @@ final class SpotifyClient implements ClientInterface
      */
     private function getSearch(string $type, string  $query)
     {
-        try {
+        Log::info('IsrcService:Spotify: Making search request', [
+            'params' => [
+                'type' => $type,
+                'query' => $query,
+            ],
+        ]);
 
-            Log::info('IsrcService:Spotify: Making search request', [
-                'params' => [
-                    'type' => $type,
-                    'query' => $query,
-                ],
-            ]);
+        $response = $this->getClient()->get('/v1/search', [
+            'query' => [
+                'type' => $type,
+                'query' => $query
+            ],
+        ]);
 
-            $response = $this->getClient()->get('/v1/search', [
-                'query' => [
-                    'type' => $type,
-                    'query' => $query
-                ],
-            ]);
+        $data = json_decode($response->getBody()->getContents());
 
-            $data = json_decode($response->getBody()->getContents());
-
-            return $data;
-
-        } catch (\Throwable $th) {
-
-            Log::error($th->getMessage());
-            return null;
-        }
+        return $data;
     }
 
     /**
@@ -123,18 +120,10 @@ final class SpotifyClient implements ClientInterface
      */
     public function searchIsrc(Isrc $isrc)
     {
-        try {
+        Log::info('IsrcService:Spotify: Making search by ISRC', [
+            'isrc' => $isrc->code
+        ]);
 
-            Log::info('IsrcService:Spotify: Making search by ISRC', [
-                'isrc' => $isrc->code
-            ]);
-
-            return $this->getSearch('track', 'isrc:' . $isrc->code);
-
-        } catch (\Throwable $th) {
-
-            Log::error($th->getMessage());
-            return null;
-        }
+        return $this->getSearch('track', 'isrc:' . $isrc->code);
     }
 }

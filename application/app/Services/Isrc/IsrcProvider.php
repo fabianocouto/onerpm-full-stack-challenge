@@ -2,19 +2,23 @@
 
 namespace App\Services\Isrc;
 
+use App\Services\Isrc\Drivers\Clients\SpotifyClient;
+use App\Services\Isrc\Drivers\SpotifyDriver;
 use Illuminate\Support\ServiceProvider;
 
-final class IsrcProvider extends ServiceProvider
+class IsrcProvider extends ServiceProvider
 {
     /**
      * Register bindings in the container.
      *
      * @return void
      */
-    public function register()
+    public function register() : void
     {
-        $this->app->bind('services.isrc', function ($app) {
-            return new IsrcService;
+        $this->app->bind(IsrcService::class, function ($app) {
+            $spotifyClient = new SpotifyClient();
+            $spotifyDriver = new SpotifyDriver($spotifyClient);
+            return new IsrcService($spotifyDriver);
         });
     }
 }

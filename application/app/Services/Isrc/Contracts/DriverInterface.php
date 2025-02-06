@@ -14,5 +14,5 @@ interface DriverInterface
      * @param  Isrc $isrc
      * @return void
      */
-    public static function syncIsrc(Isrc $isrc) : void;
+    public function syncIsrc(Isrc $isrc) : bool;
 }

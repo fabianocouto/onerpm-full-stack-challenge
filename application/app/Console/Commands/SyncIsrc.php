@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Isrc;
 use App\Models\IsrcStatus;
-use App\Services\Isrc\IsrcService;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-
+use App\Services\Isrc\IsrcFacade;
 
 class SyncIsrc extends Command
 {
@@ -33,7 +32,7 @@ class SyncIsrc extends Command
         Log::info('Executing ' . $this->signature . ' command...');
 
         Isrc::select()->where('isrc_status_id', IsrcStatus::WAITING)->get()->each(function($isrc) {
-            IsrcService::sync($isrc);
+            IsrcFacade::sync($isrc);
         });
     }
 }

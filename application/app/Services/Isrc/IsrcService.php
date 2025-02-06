@@ -4,24 +4,43 @@ namespace App\Services\Isrc;
 
 use App\Services\Isrc\Drivers\SpotifyDriver;
 use App\Models\Isrc;
-use App\Models\Track;
 
 /**
- * IsrcService class
+ * IsrcService Class
  */
-final class IsrcService
+class IsrcService
 {
     /**
-     * @param Isrc $isrc
-     * @return void
+     * SpotifyDriver
+     *
+     * @var App\Services\Isrc\Drivers\SpotifyDriver
      */
-    public static function sync(Isrc $isrc, $driver = 'spotify') : void
+    protected $spotifyDriver;
+
+    /**
+     * IsrcService Class Constructor
+     *
+     * @param SpotifyDriver $spotifyDriver
+     */
+    public function __construct(SpotifyDriver $spotifyDriver)
+    {
+        $this->spotifyDriver = $spotifyDriver;
+    }
+
+    /**
+     * @param Isrc $isrc
+     * @param string $driver [Options: spotify]
+     * @return bool
+     */
+    public function sync(Isrc $isrc, $driver = 'spotify') : bool
     {
         switch ($driver)
         {
             case 'spotify':
-                SpotifyDriver::syncIsrc($isrc);
+                return $this->spotifyDriver->syncIsrc($isrc);
                 break;
         }
+
+        return false;
     }
 }

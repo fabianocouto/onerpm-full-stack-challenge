@@ -12,8 +12,8 @@ class IsrcFacade extends Facade
     /**
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor() : string
     {
-        return 'services.isrc';
+        return IsrcService::class;
     }
 }
