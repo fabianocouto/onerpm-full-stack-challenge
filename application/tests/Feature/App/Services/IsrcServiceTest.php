@@ -5,8 +5,10 @@ namespace Tests\Feature\App\Services;
 use App\Services\Isrc\IsrcService;
 use App\Services\Isrc\Drivers\SpotifyDriver;
 use App\Services\Isrc\Drivers\Clients\SpotifyClient;
+use App\Services\Isrc\Drivers\Exceptions\InvalidDriverException;
 use App\Models\Isrc;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Exceptions;
 use File;
 
 class IsrcServiceTest extends TestCase
@@ -28,13 +30,13 @@ class IsrcServiceTest extends TestCase
         $this->assertTrue($isrcSync);
     }
 
-    public function test_that_sync_if_spotify_client_returns_anot_found_response(): void
+    public function test_that_sync_if_spotify_client_returns_a_not_found_response(): void
     {
         $spotifyClientMock = $this->createMock(SpotifyClient::class);
         $spotifyClientMock->method('searchIsrc')
-        ->willReturn(json_decode(File::get(base_path(
-            'tests/Feature/App/Services/Mock/SpotifySearchNotFoundResponse.json'
-        ))));
+            ->willReturn(json_decode(File::get(base_path(
+                'tests/Feature/App/Services/Mock/SpotifySearchNotFoundResponse.json'
+            ))));
 
         $spotifyDriver = new SpotifyDriver($spotifyClientMock);
         $isrcService = new IsrcService($spotifyDriver);
@@ -58,5 +60,23 @@ class IsrcServiceTest extends TestCase
         $isrcSync = $isrcService->sync($isrc);
 
         $this->assertFalse($isrcSync);
+    }
+
+    public function test_that_throws_invalid_driver_exception(): void
+    {
+        $spotifyClientMock = $this->createMock(SpotifyClient::class);
+        $spotifyClientMock->method('searchIsrc')
+            ->willReturn(json_decode(File::get(base_path(
+                'tests/Feature/App/Services/Mock/SpotifySearchResponse.json'
+            ))));
+
+        $spotifyDriver = new SpotifyDriver($spotifyClientMock);
+        $isrcService = new IsrcService($spotifyDriver);
+
+        $this->expectException(InvalidDriverException::class);
+        $this->expectExceptionMessage('Invalid driver InvalidDriver');
+
+        $isrc = Isrc::find(1);
+        $isrcService->sync($isrc,'InvalidDriver');
     }
 }

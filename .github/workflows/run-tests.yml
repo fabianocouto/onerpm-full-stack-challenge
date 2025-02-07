@@ -19,7 +19,7 @@ jobs:
       - name: Prepare Laravel Application
         run: |
           cd application
-          cp .env.testing .env
+          cp .env.ci .env
 
       - name: Install and build
         run: |

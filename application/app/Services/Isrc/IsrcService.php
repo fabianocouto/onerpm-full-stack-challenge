@@ -3,6 +3,7 @@
 namespace App\Services\Isrc;
 
 use App\Services\Isrc\Drivers\SpotifyDriver;
+use App\Services\Isrc\Drivers\Exceptions\InvalidDriverException;
 use App\Models\Isrc;
 
 /**
@@ -39,8 +40,9 @@ class IsrcService
             case 'spotify':
                 return $this->spotifyDriver->syncIsrc($isrc);
                 break;
+            default:
+                throw new InvalidDriverException(sprintf('Invalid driver %s', $driver));
+                break;
         }
-
-        return false;
     }
 }
